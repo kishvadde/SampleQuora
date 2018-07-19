@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     #Third party apps
     'bootstrap3',
     'bootstrapform',
+    'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -70,7 +71,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR,'quora','templates','quora'),
             os.path.join(BASE_DIR, 'main', 'templates', 'main'),
-            # os.path.join(BASE_DIR, 'main', 'templates', 'main', 'allauth')
+            os.path.join(BASE_DIR, 'main', 'templates', 'main', 'allauth')
         ],
         'APP_DIRS': True,
         'OPTIONS': {

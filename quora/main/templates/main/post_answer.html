@@ -1,7 +1,7 @@
 {% extends 'authenticated_base.html' %}
 {% block content %}
     <div>
-        <form id="question_input_form" style="margin: 5%" action="/post-answer?qid={{ question.id }}" method="post">
+        <form id="question_input_form" style="position: relative; width:40%; margin: 5%" action="/post-answer?qid={{ question.id }}" method="post">
             {% csrf_token %}
             {% if question %}
                 <div>
