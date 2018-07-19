@@ -1,0 +1,17 @@
+{% extends 'authenticated_base.html' %}
+{% block content %}
+    <div>
+        <form id="question_input_form" style="margin: 5%" action="/post-answer?qid={{ question.id }}" method="post">
+            {% csrf_token %}
+            {% if question %}
+                <div>
+                    <h4>{{ question }}</h4>
+                </div>
+            {% endif %}
+            {{ form }}
+            <button type="submit" style="margin-top:5px" class="btn btn-primary">
+                Submit
+            </button>
+        </form>
+    </div>
+{% endblock %}

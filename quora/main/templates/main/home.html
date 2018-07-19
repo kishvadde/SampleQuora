@@ -1,0 +1,64 @@
+{% extends 'authenticated_base.html' %}
+
+
+
+{% block content %}
+    {% for qa in qa_pairs %}
+        <div style="margin-left: 20%; margin-right: 20%; margin-top:2%;padding: 2%; border: #dddddd solid 1px;border-radius: 5px">
+            <div>
+                <div>
+                    <h4><a href="/question-detail?qid={{qa.question.id}}">{{qa.question.text}}</a></h4>
+                </div>
+                <div style="margin-top:5px;">
+                    <span style="color: powderblue">
+                        votes {{qa.question.votes}}
+                    </span>
+                    <span style="margin:10px">
+                        <a href="/upvote-question?qid={{qa.question.id}}&redirect_to={{request.path}}">
+                            <span class="glyphicon glyphicon-menu-up"/>
+                        </a>
+                    </span>
+                    <span style="margin:10px">
+                        <a href="/downvote-question?qid={{qa.question.id}}&redirect_to={{request.path}}">
+                          <span class="glyphicon glyphicon-menu-down"/>
+                        </a>
+                    </span>
+                    <span style="align-self: end">
+                        <a href="/post-answer?qid={{ qa.question.id}}">
+                            Write Answer <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div style="margin: 20px;">
+                {% if not qa.answer %}
+                    <div>
+                        No one answered this question yet
+                    </div>
+                {% else %}
+                <div>
+                    {{qa.answer.text}}
+                </div>
+                <div style="margin-top:20px;">
+                    <span style="color: powderblue">
+                        votes {{qa.answer.votes}}
+                    </span>
+                    <span style="margin:10px">
+                        <a href="/upvote-answer?answerid={{qa.answer.id}}&redirect_to={{ request.path }}">
+                          <span class="glyphicon glyphicon-menu-up"/>
+                        </a>
+                    </span>
+                    <span style="margin:10px">
+                        <a href="/downvote-answer?answerid={{qa.answer.id}}&redirect_to={{ request.path }}">
+                          <span class="glyphicon glyphicon-menu-down"/>
+                        </a>
+                    </span>
+                    <span>
+                        Answerd by: {{ qa.answer.answered_by.username }}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

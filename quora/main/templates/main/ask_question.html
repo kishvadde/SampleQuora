@@ -1,0 +1,23 @@
+{% extends 'authenticated_base.html' %}
+{% block content %}
+    {% if bounded %}
+        {% if not created %}
+            <div class="alert alert-danger" style="margin-left:5%;width:50%">
+                Question already exist!!
+            </div>
+        {% else %}
+            <div class="alert alert-success" style="margin-left:5%;width:50%">
+                Question created successfully!!
+            </div>
+        {% endif %}
+    {% endif %}
+    <div>
+        <form id="question_input_form" style="margin: 5%" action="/ask-question" method="post">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" class="btn btn-primary" style="margin-top: 5px">
+                Submit
+            </button>
+        </form>
+    </div>
+{% endblock %}

@@ -19,7 +19,13 @@
             </div>
             <ul class="nav navbar-nav">
               <li class="active"><a href="/">Home</a></li>
+              <li class="active"><a href="/ask-question">Ask a Question</a></li>
+
             </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li style="color:white;margin-top:15px"><span ><span style="margin-right:2px" class="glyphicon glyphicon-user"></span>{{ user.username }}</span></li>
+                  <li><a href="/accounts/logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+              </ul>
           </div>
         </nav>
         {% block content %}

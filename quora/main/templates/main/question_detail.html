@@ -1,0 +1,66 @@
+{% extends 'authenticated_base.html' %}
+
+
+
+{% block content %}
+    <div style="margin-left: 20%; margin-right: 20%; margin-top:2%;padding: 2%;">
+        <div>
+            <div>
+                <h4>{{question.text}}</h4>
+            </div>
+            <div style="margin-top:5px;">
+                <span style="color: powderblue">
+                   votes {{ question.votes }}
+                </span>
+                <span style="margin:10px">
+                    <a href="/upvote-question?qid={{question.id}}&redirect_to={{request.path}}?qid={{ question.id }}">
+                      <span class="glyphicon glyphicon-menu-up"/>
+                    </a>
+                </span>
+                <span style="margin:10px">
+                    <a href="/downvote-question?qid={{question.id}}&redirect_to={{request.path}}?qid={{ question.id }}">
+                      <span class="glyphicon glyphicon-menu-down"/>
+                    </a>
+                </span>
+                <span style="align-self: end">
+                    <a href="/post-answer?qid={{question.id}}">
+                        Write Answer <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            {% if not answers %}
+                <div style="padding: 2%;margin-top:10px;border: #dddddd solid 1px;border-radius: 5px">
+                    No one answered this question yet
+                </div>
+            {% else %}
+                {% for ans in answers %}
+                    <div style="padding: 2%;margin-top:10px;border: #dddddd solid 1px;border-radius: 5px">
+                        <div>
+                        {{ans.text}}
+                        </div>
+                        <div style="margin-top:20px;">
+                            <span style="color: powderblue">
+                                votes {{ ans.votes }}
+                            </span>
+                            <span style="margin:10px">
+                                <a href="/upvote-answer?answerid={{ans.id}}&redirect_to={{ request.path }}?qid={{ question.id }}">
+                                  <span class="glyphicon glyphicon-menu-up"/>
+                                </a>
+                            </span>
+                            <span style="margin:10px">
+                                <a href="/downvote-answer?answerid={{ans.id}}&redirect_to={{ request.path }}?qid={{ question.id }}">
+                                  <span class="glyphicon glyphicon-menu-down"/>
+                                </a>
+                            </span>
+                            <span >
+                                Answeredby: <span style="color: powderblue">{{ ans.answered_by.username }}</span>
+                            </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

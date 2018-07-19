@@ -68,7 +68,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            # os.path.join(BASE_DIR, 'main', 'templates', 'main'),
+            os.path.join(BASE_DIR,'quora','templates','quora'),
+            os.path.join(BASE_DIR, 'main', 'templates', 'main'),
             # os.path.join(BASE_DIR, 'main', 'templates', 'main', 'allauth')
         ],
         'APP_DIRS': True,
