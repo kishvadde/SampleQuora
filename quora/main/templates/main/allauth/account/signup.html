@@ -4,7 +4,7 @@
 {% block content %}
     <div style="position: relative; left:35%; width: 30%">
         <div>
-            <h5>Already have an account? Then </h5><span><a href="{{ login_url }}">Sign In</a></span>
+            <h5>Already have an account? <span><a href="{{ login_url }}">Sign In</a></span></h5>
         </div>
         <form id="signup_form" method="post" action="{% url 'account_signup' %}">
           {% csrf_token %}

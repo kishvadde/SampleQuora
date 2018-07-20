@@ -50,14 +50,19 @@ def ask_question(request):
 @require_http_methods('GET')
 def question_detail(request):
     context = {}
+    q = None
     try:
         qid = request.GET.get('qid')
-        q = Question.objects.get(id=qid)
+        try:
+            q = Question.objects.get(id=qid)
+        except Exception as e:
+            print(e.__str__())
+            return redirect(to='/')
         answers = q.answer_set.all().order_by('-votes')
         context['question'] = q
         context['answers'] = answers
     except Exception as e:
-        pass
+        print(e.__str__())
 
     return render(request, 'main/question_detail.html', context=context)
 
