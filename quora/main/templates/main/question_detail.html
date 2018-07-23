@@ -13,17 +13,17 @@
                    votes {{ question.votes }}
                 </span>
                 <span style="margin:10px">
-                    <a href="/upvote-question?qid={{question.id}}&redirect_to={{request.path}}?qid={{ question.id }}">
+                    <a href="/upvote-question/{{question.id}}?redirect_to={{request.path}}">
                       <span class="glyphicon glyphicon-menu-up"/>
                     </a>
                 </span>
                 <span style="margin:10px">
-                    <a href="/downvote-question?qid={{question.id}}&redirect_to={{request.path}}?qid={{ question.id }}">
+                    <a href="/downvote-question/{{question.id}}?redirect_to={{request.path}}">
                       <span class="glyphicon glyphicon-menu-down"/>
                     </a>
                 </span>
                 <span style="align-self: end">
-                    <a href="/post-answer?qid={{question.id}}">
+                    <a href="/post-answer/{{question.id}}">
                         Write Answer <span class="glyphicon glyphicon-pencil"></span>
                     </a>
                 </span>
@@ -45,12 +45,12 @@
                                 votes {{ ans.votes }}
                             </span>
                             <span style="margin:10px">
-                                <a href="/upvote-answer?answerid={{ans.id}}&redirect_to={{ request.path }}?qid={{ question.id }}">
+                                <a href="/upvote-answer/{{ans.id}}?redirect_to={{ request.path }}">
                                   <span class="glyphicon glyphicon-menu-up"/>
                                 </a>
                             </span>
                             <span style="margin:10px">
-                                <a href="/downvote-answer?answerid={{ans.id}}&redirect_to={{ request.path }}?qid={{ question.id }}">
+                                <a href="/downvote-answer/{{ans.id}}?redirect_to={{ request.path }}">
                                   <span class="glyphicon glyphicon-menu-down"/>
                                 </a>
                             </span>

@@ -10,8 +10,17 @@ class Question(models.Model):
     asked_by = models.ForeignKey(User, on_delete=models.CASCADE)
     asked_on = models.DateTimeField()
     votes = models.PositiveIntegerField(default=0)
+
     def __str__(self):
         return self.text
+
+    def vote_increment(self):
+        self.votes += 1
+        self.save()
+
+    def vote_decrement(self):
+        self.votes -= 1
+        self.save()
 
 class Answer(models.Model):
 
@@ -29,6 +38,15 @@ class Answer(models.Model):
         return self.text
 
 
+    def vote_increment(self):
+        self.votes += 1
+        self.save()
+
+    def vote_decrement(self):
+        self.votes -= 1
+        self.save()
+
+
 class QuestionVote(models.Model):
 
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
@@ -39,7 +57,6 @@ class QuestionVote(models.Model):
 
     class Meta:
         unique_together = ('question','voted_by')
-
 
 class AnswerVote(models.Model):
 
