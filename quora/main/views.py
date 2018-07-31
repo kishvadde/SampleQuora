@@ -15,12 +15,14 @@ def home(request):
     qa_pairs = []
     questions = None
     try:
-        questions = Question.objects.prefetch_related(Prefetch('answer_set')).order_by('-votes')
+        questions = Question.objects.all().order_by('-votes').prefetch_related('answer_set__answered_by')
         for q in questions:
             answer = None
             try:
-                answer = q.answer_set.latest('votes')
+                answer  = q.answer_set.all()[0]
             except Answer.DoesNotExist as e:
+                print(e.__str__())
+            except IndexError as e:
                 print(e.__str__())
             qa_pairs.append({'question': q, 'answer': answer})
     except Exception as e:
@@ -54,10 +56,10 @@ def ask_question(request):
 def question_detail(request, qid=None):
     context = {}
     try:
-        q = Question.objects.get(id=qid)
-        answers = q.answer_set.all().order_by('-votes')
+        q = Question.objects.prefetch_related('answer_set').get(id=qid)
+        # answers = q.answer_set.all().order_by('-votes')
         context['question'] = q
-        context['answers'] = answers
+        context['answers'] = q.answer_set.all()
     except Question.DoesNotExist as e:
         print(e.__str__())
         return redirect(to='/')
@@ -125,9 +127,7 @@ def upvote_question(request, qid=None):
 
     try:
         q = Question.objects.get(id=qid)
-        qv,created = QuestionVote.objects.get_or_create(question=q,voted_by=request.user)
-        if created:
-            q.vote_increment()
+        q.increment_vote(user=request.user)
     except Question.DoesNotExist as e:
         print(e.__str__())
 
@@ -144,13 +144,8 @@ def downvote_question(request, qid=None):
 
     try:
         q = Question.objects.get(id=qid)
-        qv = QuestionVote.objects.get(question=q,voted_by=request.user)
-        if q.votes > 0:
-            q.vote_decrement()
-            qv.delete()
+        q.decrement_vote(user=request.user)
     except Question.DoesNotExist as e:
-        print(e.__str__())
-    except QuestionVote.DoesNotExist as e:
         print(e.__str__())
 
     return redirect(to=redirect_to)
@@ -165,9 +160,7 @@ def upvote_answer(request,answerid=None):
         redirect_to = '/'
     try:
         answer = Answer.objects.get(id=answerid)
-        ansv, created = AnswerVote.objects.get_or_create(answer=answer, voted_by=request.user)
-        if created:
-            answer.vote_increment()
+        answer.increment_vote(user=request.user)
     except Answer.DoesNotExist as e:
         print(e.__str__())
 
@@ -183,13 +176,8 @@ def downvote_answer(request,answerid=None):
         redirect_to = '/'
     try:
         answer = Answer.objects.get(id=answerid)
-        ansv = AnswerVote.objects.get(answer=answer,voted_by=request.user)
-        if answer.votes > 0:
-            ansv.delete()
-            answer.vote_decrement()
+        answer.decrement_vote(user=request.user)
     except Answer.DoesNotExist as e:
-        print(e.__str__())
-    except AnswerVote.DoesNotExist as e:
         print(e.__str__())
 
     return redirect(to=redirect_to)

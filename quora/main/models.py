@@ -14,13 +14,21 @@ class Question(models.Model):
     def __str__(self):
         return self.text
 
-    def vote_increment(self):
-        self.votes += 1
-        self.save()
+    def increment_vote(self,user):
+        qv, created = QuestionVote.objects.get_or_create(question=self, voted_by=user)
+        if created:
+            self.votes += 1
+            self.save()
 
-    def vote_decrement(self):
-        self.votes -= 1
-        self.save()
+    def decrement_vote(self,user):
+        try:
+            qv = QuestionVote.objects.get(question=self, voted_by=user)
+            qv.delete()
+            if self.votes > 0:
+                self.votes -= 1
+                self.save()
+        except QuestionVote.DoesNotExist as e:
+            print(e.__str__())
 
 class Answer(models.Model):
 
@@ -38,13 +46,21 @@ class Answer(models.Model):
         return self.text
 
 
-    def vote_increment(self):
-        self.votes += 1
-        self.save()
+    def increment_vote(self,user):
+        ans, created = AnswerVote.objects.get_or_create(answer=self, voted_by=user)
+        if created:
+            self.votes += 1
+            self.save()
 
-    def vote_decrement(self):
-        self.votes -= 1
-        self.save()
+    def decrement_vote(self,user):
+        try:
+            ans = AnswerVote.objects.get(answer=self, voted_by=user)
+            ans.delete()
+            if self.votes > 0:
+                self.votes -= 1
+                self.save()
+        except AnswerVote.DoesNotExist as e:
+            print(e.__str__())
 
 
 class QuestionVote(models.Model):
@@ -57,6 +73,7 @@ class QuestionVote(models.Model):
 
     class Meta:
         unique_together = ('question','voted_by')
+
 
 class AnswerVote(models.Model):
 
