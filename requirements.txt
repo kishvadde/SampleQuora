@@ -11,7 +11,7 @@ django-allauth==0.36.0
 django-bootstrap-form==3.4
 django-bootstrap3==10.0.1
 django-crispy-forms==1.7.2
-django-debug-toolbar==1.9.1
+django-debug-toolbar==1.11.1
 idna==2.7
 ipython==6.4.0
 ipython-genutils==0.2.0
